@@ -34,8 +34,7 @@ export default {
       };
       axios.get(process.env.VUE_APP_API_URL + '/received-request', config)
         .then(response => {
-          // console.log(response.data.data.data)
-          this.items = response.data.data.data;
+          this.items = response.data.data;
         })
         .catch(error => {
           console.log(error)

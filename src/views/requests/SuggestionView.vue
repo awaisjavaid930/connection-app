@@ -9,6 +9,10 @@
             <td>{{ item.email }}</td>
             <td><button class="btn btn-primary" @click="sendRequest(item.id)">Connect</button></td>
           </tr>
+          <tr class="text-center">
+              <td colspan="2"><button class="btn btn-primary float-center" @click="loadMore">Load More</button></td>
+          </tr>
+          
         </tbody>
       </table>
     </div>
@@ -22,7 +26,8 @@ export default {
   name: 'SuggestionView',
   data() {
     return {
-      items: []
+      items: [],
+      page:1
     }
   },
   methods: {
@@ -32,9 +37,24 @@ export default {
           Authorization: "Bearer " + localStorage.getItem('token')
         }
       };
-      axios.get(process.env.VUE_APP_API_URL + '/suggested-request', config)
+      axios.get(process.env.VUE_APP_API_URL + '/suggested-request?page='+this.page , config)
         .then(response => {
-          this.items = response.data.data;
+          this.items = response.data.data.data;
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
+    loadMore() {
+      let config = {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem('token')
+        }
+      };
+      axios.get(process.env.VUE_APP_API_URL + '/suggested-request?page=' + ++this.page, config)
+        .then(response => {
+          
+          this.items = this.items.concat(response.data.data.data);
         })
         .catch(error => {
           console.log(error)
@@ -61,7 +81,8 @@ export default {
     }
   },
   mounted() {
-    return this.getItems();
+    return this.getItems();    
   },
+  
 }
 </script>
