@@ -6,8 +6,8 @@
       <table class="table table-striped table-bordered">
         <tbody>
           <tr v-for="item in items" :key="item.id">
-            <td>{{ item.user.email }}</td>
-            <td><button class="btn btn-success" @click="acceptRequest(item.id)">Connect</button></td>
+            <td>{{ item.sender.email }}</td>
+            <td><button class="btn btn-success" @click="acceptRequest(item.id)">Approved</button></td>
           </tr>
         </tbody>
       </table>
@@ -34,7 +34,8 @@ export default {
       };
       axios.get(process.env.VUE_APP_API_URL + '/received-request', config)
         .then(response => {
-          this.items = response.data.data;
+          // console.log(response.data.data.data)
+          this.items = response.data.data.data;
         })
         .catch(error => {
           console.log(error)
@@ -50,7 +51,9 @@ export default {
       axios.post(process.env.VUE_APP_API_URL + '/approved-request', { request_id: id }, config)
         .then(response => {
           if (response.data.status == 201) {
-            this.$router.push('/request/received')
+            this.$nextTick(
+              this.getItems()
+            )
           }
         })
         .catch(error => {

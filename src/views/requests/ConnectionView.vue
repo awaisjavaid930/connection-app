@@ -5,8 +5,8 @@
       <table class="table table-striped table-bordered">
           <tbody>
             <tr v-for="item in items" :key="item.id">
-              <td>{{ item.user.email }}</td>
-              <td><button class="btn btn-outline-primary">Connect</button></td>
+              <td>{{ item.email }}</td>
+              <td><button class="btn btn-outline-primary">Connect {{ item.mutual_connection }}</button></td>
             </tr>
           </tbody>
         </table>
@@ -31,7 +31,7 @@ export default {
           Authorization: "Bearer " + localStorage.getItem('token')
         }
       };
-      axios.get(process.env.VUE_APP_API_URL + '/approved-request', config)
+      axios.get(process.env.VUE_APP_API_URL + '/mutual-request', config)
         .then(response => {
           this.items = response.data.data;
         })
