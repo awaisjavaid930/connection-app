@@ -6,7 +6,7 @@
       <table class="table table-striped table-bordered">
           <tbody>
             <tr v-for="item in items" :key="item.id">
-              <td>{{ item.email }}</td>
+              <td>{{ item.user.email }}</td>
               <td><button class="btn btn-outline-primary">Connect</button></td>
             </tr>
           </tbody>
@@ -32,7 +32,7 @@ export default {
           Authorization: "Bearer " + localStorage.getItem('token')
         }
       };
-      axios.get(process.env.VUE_APP_API_URL + '/pending-request', config)
+      axios.get(process.env.VUE_APP_API_URL + '/send-request', config)
         .then(response => {
           this.items = response.data.data;
         })
