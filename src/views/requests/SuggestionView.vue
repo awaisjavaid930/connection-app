@@ -7,7 +7,7 @@
         <tbody>
           <tr v-for="item in items" :key="item.id">
             <td>{{ item.email }}</td>
-            <td><button class="btn btn-outline-primary">Connect</button></td>
+            <td><button class="btn btn-primary" @click="sendRequest(item.id)">Connect</button></td>
           </tr>
         </tbody>
       </table>
@@ -39,6 +39,25 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    sendRequest(id) {
+
+      let config = {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem('token')
+        }
+      };
+
+      axios.post(process.env.VUE_APP_API_URL + '/create-request', { receiver_id: id }, config)
+        .then(response => {
+          if (response.data.status == 201) {
+            this.$router.push('/request/send')
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
     }
   },
   mounted() {

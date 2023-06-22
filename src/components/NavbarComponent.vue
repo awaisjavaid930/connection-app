@@ -16,6 +16,9 @@
                         <li class="nav-item">
                             <router-link class="btn btn-outline-primary" to="/request/connection">Connections</router-link>
                         </li>
+                        <li class="nav-item align-end">
+                            <button class="btn btn-danger">Logout</button>
+                        </li>
                     </ul>
                 </div>
             </div>

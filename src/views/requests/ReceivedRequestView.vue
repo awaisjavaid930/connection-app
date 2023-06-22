@@ -3,14 +3,14 @@
     <div class="row">
       <h3>Received Connections List</h3>
 
-     <table class="table table-striped table-bordered">
-          <tbody>
-            <tr v-for="item in items" :key="item.id">
-              <td>{{ item.user.email }}</td>
-              <td><button class="btn btn-outline-primary">Connect</button></td>
-            </tr>
-          </tbody>
-        </table>
+      <table class="table table-striped table-bordered">
+        <tbody>
+          <tr v-for="item in items" :key="item.id">
+            <td>{{ item.user.email }}</td>
+            <td><button class="btn btn-success" @click="acceptRequest(item.id)">Connect</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
   </div>
@@ -39,8 +39,27 @@ export default {
         .catch(error => {
           console.log(error)
         })
+    },
+    acceptRequest(id) {
+      let config = {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem('token')
+        }
+      };
+
+      axios.post(process.env.VUE_APP_API_URL + '/approved-request', { request_id: id }, config)
+        .then(response => {
+          if (response.data.status == 201) {
+            this.$router.push('/request/received')
+          }
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
     }
   },
+
   mounted() {
     return this.getItems();
   },
