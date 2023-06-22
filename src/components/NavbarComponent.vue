@@ -16,8 +16,8 @@
                         <li class="nav-item">
                             <router-link class="btn btn-outline-primary" to="/request/connection">Connections</router-link>
                         </li>
-                        <li class="nav-item align-end">
-                            <button class="btn btn-danger">Logout</button>
+                        <li class="nav-item pull-right">
+                            <button class="btn btn-danger" @click="logout">Logout</button>
                         </li>
                     </ul>
                 </div>
@@ -33,6 +33,12 @@ export default {
     data() {
         return {
 
+        }
+    },
+    methods: {
+        logout() {
+            localStorage.setItem('token',null)
+            this.$router.push('/')
         }
     },
 }

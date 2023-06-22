@@ -65,13 +65,11 @@ const router = createRouter({
   routes,
 });
 
-router.afterEach((to, from, next) => {
+router.afterEach((to) => {
   if (to.meta.isAuth) {
-
     let user = localStorage.getItem('token')
-    console.log(user)
-    if (!user) {      
-      next('/login')
+    if (user == 'null') {
+      window.location.href = '/';
     }
   }
 })
